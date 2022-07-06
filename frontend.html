@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Find Albums on Spotify</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Spotify Album Finder
+        <form action="" class="search-bar" id="search">
+            <input id="artistName" type="text" placeholder="Artist Name" name="artist">
+            <button id="submitArtist" type="submit">Search</button>
+        </form>
+    </h1>
+
+    <h3>
+        <script>
+            var enterArtist = document.getElementById('search');
+            enterArtist.addEventListener('submit', function (e) {
+                e.preventDefault();
+                fetch(`http://localhost:8000/albums?artist=${artistName.value}`)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then((result) => {
+                        theName = artistName.value.split(" ");
+                        artist = "";
+                        for (let j = 0; j < theName.length; j++) {
+                            theName[j] = theName[j][0].toUpperCase() + theName[j].substring(1);
+                            if (j + 1 < theName.length) {
+                                artist = artist + theName[j] + " ";
+                            } else {
+                                artist = artist + theName[j]
+                            }
+                        }
+                        if (artist.toLowerCase() == result[0].artist.toLowerCase()) {
+                            document.write(`<h1> ${artist} </h1>`);
+                        }
+                        else {
+                            document.write(`<h1> Result for \"${artist}\" - ${result[0].artist}</h1>`);
+                        }
+                        document.write("<title>Find Albums on Spotify</title>");
+                        for (let i = 1; i < result.length; i++) {
+                            document.write(result[i].name.fontcolor('#1DB954') + " | ".bold() + result[i].year + " | ".bold() + `<a href=${result[i].url}>Album Art</a>`);
+                            document.write("<br><br>");
+                        }
+                    })
+                    .catch(function (error) {
+                        document.write("<h2>Error - Input a Spotify Artist or Check Connection</h2>");
+                        console.log(error);
+                    })
+
+            });
+        </script>
+    </h3>
+
+</body>
+
+</html>
