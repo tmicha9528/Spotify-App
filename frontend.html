@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h1 style = "text-align: center">Spotify Album Finder
+    <h1 style="text-align: center">Spotify Album Finder
         <form action="" class="search-bar" id="search">
             <input id="artistName" type="text" placeholder="Artist Name" name="artist">
             <button id="submitArtist" type="submit">Search</button>
@@ -43,10 +43,16 @@
                             document.write(`<h1> Result for \"${artist}\" - ${result[0].artist}</h1>`);
                         }
                         document.write("<title>Find Albums on Spotify</title>");
+                        var currentList = [];
+                        var j = 0;
                         for (let i = 1; i < result.length; i++) {
-                            document.write(result[i].name.fontcolor('#1DB954') + " | ".bold() + result[i].year + " | ".bold() + `<a href=${result[i].url}>Album Art</a>`);
-                            document.write("<br><br>");
+                            if ((currentList.indexOf(result[i].name) == -1) && result[i].type != 'single') {
+                                currentList[j++] = result[i].name;
+                                document.write(result[i].name.fontcolor('#1DB954') + " | ".bold() + result[i].year + " | ".bold() + `<a href=${result[i].url}>Album Art</a>`);
+                                document.write("<br><br>");
+                            }
                         }
+                        
                     })
                     .catch(function (error) {
                         document.write("<h2>Error - Input a Spotify Artist or Check Connection</h2>");
@@ -54,6 +60,7 @@
                     })
 
             });
+
         </script>
     </h3>
 

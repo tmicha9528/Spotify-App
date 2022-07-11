@@ -56,7 +56,7 @@ app.get('/albums', function (req, res) {
     const getAlbums = new Promise((resolve, reject) => {
         return getArtistId
             .then((result) => {
-                url = `https://api.spotify.com/v1/artists/${result.artistId}/albums`;
+                url = `https://api.spotify.com/v1/artists/${result.artistId}/albums?limit=50`;
                 return axios.get(url, {
                     headers: {
                         'Accept': 'application/json',
@@ -76,11 +76,12 @@ app.get('/albums', function (req, res) {
             })
     });
 
-    const formAlbums = function (name, year, url) {
+    const formAlbums = function (name, year, url, type) {
         listOfAlbums[index++] = {
             'name': name,
             'year': year,
-            'url': url
+            'url': url,
+            'type': type
         }
         return listOfAlbums;
     }
@@ -96,7 +97,8 @@ app.get('/albums', function (req, res) {
                 albumName = albums.items[i].name;
                 albumYear = albums.items[i].release_date.substring(0, 4);
                 albumImage = albums.items[i].images[0].url;
-                formAlbums(albumName, albumYear, albumImage);
+                albumType = albums.items[i].album_type;
+                formAlbums(albumName, albumYear, albumImage, albumType);
             }
             res.send(listOfAlbums);
         })
