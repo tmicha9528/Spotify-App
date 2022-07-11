@@ -26,33 +26,21 @@
                         return response.json();
                     })
                     .then((result) => {
-                        theName = artistName.value.split(" ");
-                        artist = "";
-                        for (let j = 0; j < theName.length; j++) {
-                            theName[j] = theName[j][0].toUpperCase() + theName[j].substring(1);
-                            if (j + 1 < theName.length) {
-                                artist = artist + theName[j] + " ";
-                            } else {
-                                artist = artist + theName[j]
-                            }
-                        }
-                        if (artist.toLowerCase() == result[0].artist.toLowerCase()) {
-                            document.write(`<h1> ${artist} </h1>`);
-                        }
-                        else {
-                            document.write(`<h1> Result for \"${artist}\" - ${result[0].artist}</h1>`);
-                        }
+                        document.write(`<h1> ${result[0].artist} </h1>`);
                         document.write("<title>Find Albums on Spotify</title>");
                         var currentList = [];
                         var j = 0;
                         for (let i = 1; i < result.length; i++) {
-                            if ((currentList.indexOf(result[i].name) == -1) && result[i].type != 'single') {
+                            if ((currentList.indexOf(result[i].name) == -1) && (result[i].type == 'album') && (result[i].group != 'appears_on')) {
                                 currentList[j++] = result[i].name;
                                 document.write(result[i].name.fontcolor('#1DB954') + " | ".bold() + result[i].year + " | ".bold() + `<a href=${result[i].url}>Album Art</a>`);
                                 document.write("<br><br>");
                             }
                         }
-                        
+                        if (currentList.length == 0) {
+                            document.write("<h2> No albums to display </h2>")
+                        }
+
                     })
                     .catch(function (error) {
                         document.write("<h2>Error - Input a Spotify Artist or Check Connection</h2>");
