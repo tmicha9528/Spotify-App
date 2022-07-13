@@ -90,13 +90,14 @@ app.get('/albums', function (req, res) {
             })
     });
 
-    const formAlbums = function (name, year, url, type, group) {
+    const formAlbums = function (name, year, url, type, group, id) {
         listOfAlbums[index++] = {
             'name': name,
             'year': year,
             'url': url,
             'type': type,
-            'group': group
+            'group': group,
+            'id': id
         }
         return listOfAlbums;
     }
@@ -114,7 +115,8 @@ app.get('/albums', function (req, res) {
                 albumImage = albums.items[i].images[0].url;
                 albumType = albums.items[i].album_type;
                 albumGroup = albums.items[i].album_group;
-                formAlbums(albumName, albumYear, albumImage, albumType, albumGroup);
+                albumId = albums.items[i].id;
+                formAlbums(albumName, albumYear, albumImage, albumType, albumGroup, albumId);
             }
             res.send(listOfAlbums);
         })

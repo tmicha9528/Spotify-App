@@ -9,12 +9,16 @@
 </head>
 
 <body>
-    <div class="container">
-        <form action="" class="search-bar" id="search">
-            <input id="artistName" type="text" placeholder="Artist Name" name="artist">
-            <button id="submitArtist" type="submit"><img src="search.png"></button>
-        </form>
-    </div>
+
+    <h1>
+        Find Spotify Albums
+    </h1>
+    <form action="" class="search-bar" id="search">
+        <input id="artistName" type="text" placeholder="Artist Name" name="artist">
+        <button id="submitArtist" type="submit"><img src="search.png"></button>
+    </form>
+
+    <div id="holder"></div>
 
     <h3>
         <script>
@@ -26,24 +30,23 @@
                         return response.json();
                     })
                     .then((result) => {
-                        document.write(`<h1> ${result[0].artist} </h1>`);
-                        document.write("<title>Find Albums on Spotify</title>");
+                        var holder = document.getElementById("holder");
+                        holder.innerHTML = `<h1> ${result[0].artist} </h1>`;
                         var currentList = [];
                         var j = 0;
                         for (let i = 1; i < result.length; i++) {
                             if ((currentList.indexOf(result[i].name) == -1) && (result[i].type == 'album') && (result[i].group != 'appears_on')) {
                                 currentList[j++] = result[i].name;
-                                document.write(result[i].name.fontcolor('#1DB954') + " | ".bold() + result[i].year + " | ".bold() + `<a href=${result[i].url}>Album Art</a>`);
-                                document.write("<br><br>");
+                                holder.innerHTML += "<p>" + `<a target="_blank" rel="noopener noreferrer" href=https://open.spotify.com/album/${result[i].id}>${result[i].name.fontcolor('#1DB954')}</a>` + " | ".bold() + result[i].year + " | ".bold() + `<img data-src=${result[i].url} width="50" height="50" src=${result[i].url}>` + "</p>";
                             }
                         }
                         if (currentList.length == 0) {
-                            document.write("<h2> No albums to display </h2>")
+                            holder.innerHTML += "<h2> No albums to display </h2>";
                         }
 
                     })
                     .catch(function (error) {
-                        document.write("<h2>Error - Input a Spotify Artist or Check Connection</h2>");
+                        holder.innerHTML += "<h2>Error - Input a Spotify Artist or Check Connection</h2>";
                         console.log(error);
                     })
 

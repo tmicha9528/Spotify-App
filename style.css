@@ -4,18 +4,9 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
-.container {
-  width: 100%;
-  min-height: 100vh;
-  padding: 5%;
-  background-image: linear-gradient(rgba(0,8,51,.9), rgba(0,8,51,.9)), url(nature.jpeg);
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body {
+  background-color: rgb(247, 247, 247);
 }
-
 .search-bar {
   width: 100%;
   max-width: 650px;
@@ -33,11 +24,13 @@
   outline: none;
   padding: 24px 20px;
   font-size: 20px;
-  color: #cac7ff;
+  color: rgb(0, 0, 0);
+  font-family: inherit;
+  text-align: center;
 }
 
 ::placeholder{
-  color: #cac7ff;
+  color: rgb(0, 0, 0);
 }
 
 .search-bar button img{
@@ -49,7 +42,7 @@
   border-radius: 50%;
   width: 60px;
   height: 60px;
-  background: #58629b;
+  background: rgba(30, 215, 95, 0.7);
   cursor: pointer;
 
 }
