@@ -31,7 +31,8 @@
                     })
                     .then((result) => {
                         var holder = document.getElementById("holder");
-                        holder.innerHTML = `<h1> ${result[0].artist} </h1>`;
+                        holder.innerHTML = `<h1> <a target="_blank" rel="noopener noreferrer" href=https://open.spotify.com/artist/${result[0].artistId}>${result[0].artist}</a> </h1>`;
+                        console.log(result);
                         var currentList = [];
                         var j = 0;
                         for (let i = 1; i < result.length; i++) {
@@ -46,7 +47,8 @@
 
                     })
                     .catch(function (error) {
-                        holder.innerHTML += "<h2>Error - Input a Spotify Artist or Check Connection</h2>";
+                        holder.innerHTML = "";
+                        holder.innerHTML = "<h2>Error - Input a Spotify Artist or Check Connection</h2>";
                         console.log(error);
                     })
 

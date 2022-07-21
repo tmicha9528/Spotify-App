@@ -21,7 +21,6 @@ app.get('/albums', function (req, res) {
         }).then((response) => {
             return resolve(response.data.access_token);
         }).catch((error) => {
-            console.log(error);
             reject(error);
         })
     });
@@ -29,7 +28,7 @@ app.get('/albums', function (req, res) {
     const getArtistId = new Promise(function (resolve, reject) {
         let accessToken;
         return getAuthorization
-            .then(access_token => {
+            .then((access_token) => {
                 accessToken = access_token;
                 return axios.get(`https://api.spotify.com/v1/search?q=${artist}&type=artist`, {
                     headers: {
@@ -43,7 +42,8 @@ app.get('/albums', function (req, res) {
                 var name = artist.toLowerCase();
                 if (response.data.artists.items[0].name.toLowerCase() == name) {
                     listOfAlbums[0] = {
-                        'artist': response.data.artists.items[0].name
+                        'artist': response.data.artists.items[0].name,
+                        'artistId': response.data.artists.items[0].id
                     }
                     return resolve({ accessToken: accessToken, artistId: response.data.artists.items[0].id });
                 }
@@ -51,18 +51,19 @@ app.get('/albums', function (req, res) {
                     for (let i = 0; i < response.data.artists.items.length; i++) {
                         if (response.data.artists.items[i].name.toLowerCase() == name) {
                             listOfAlbums[0] = {
-                                'artist': response.data.artists.items[i].name
+                                'artist': response.data.artists.items[i].name,
+                                'artistId': response.data.artists.items[i].id
                             }
                             return resolve({ accessToken: accessToken, artistId: response.data.artists.items[i].id });
                         }
                     }
                     listOfAlbums[0] = {
-                        'artist': response.data.artists.items[0].name
+                        'artist': response.data.artists.items[0].name,
+                        'artistId': response.data.artists.items[0].id
                     }
                     return resolve({ accessToken: accessToken, artistId: response.data.artists.items[0].id });
                 }
             }).catch((error) => {
-                console.log(error);
                 reject(error);
             });
     });
@@ -84,8 +85,7 @@ app.get('/albums', function (req, res) {
                     reject(error);
                 });
             })
-            .catch(error => {
-                console.log(error);
+            .catch((error) => {
                 reject(error);
             })
     });
@@ -108,7 +108,7 @@ app.get('/albums', function (req, res) {
     artist = req.query.artist;
 
     return getAlbums
-        .then(albums => {
+        .then((albums) => {
             for (let i = 0; i < albums.items.length; i++) {
                 albumName = albums.items[i].name;
                 albumYear = albums.items[i].release_date.substring(0, 4);
@@ -120,9 +120,9 @@ app.get('/albums', function (req, res) {
             }
             res.send(listOfAlbums);
         })
-        .catch(error => {
+        .catch((error) => {
             console.log(error);
-            reject(error);
+            res.send(error);
         });
 });
 
